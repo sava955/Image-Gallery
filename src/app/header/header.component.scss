@@ -1,0 +1,42 @@
+.navbar-brand {
+    color: #e63111;
+    font-weight: 700;
+}
+
+ul {
+    list-style-type: none;
+
+    .nav-item {
+        display: inline-flex;
+
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            color: #000;
+
+            &::before {
+                content: '';
+                width: 0;
+                height: 5px;
+                background-color: #e63111;
+                position: absolute;
+                top: 70%;
+                left: 0;
+                transition: .5s;
+            }
+        }
+
+        &:hover .nav-link::before {
+            width: 40%;
+            transform: translateX(100%);
+        }
+
+        
+    }
+}
+
+@media (max-width: #{768px}) {
+    .nav-item {
+        font-size: 14px;
+    }
+}

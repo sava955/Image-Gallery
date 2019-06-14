@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+$main-color: #e63111;
+$secondary-color: #e6d811;
+$main-text-color: #080000e8;
+$secondary-text-color: #383838e8;
+$white: #ffffff;
+$gradient: linear-gradient(to right, $secondary-color, $main-color);
+
+// Small tablets (portrait view)
+$screen-md-max: 768px;
+
+// Medium devices
+@mixin md {
+    @media (max-width: #{$screen-md-max}) {
+        @content;
+    }
+  }
+
+html, body, p {
+    color: $main-text-color;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.btn {
+    background: $gradient;
+    color: $white;
+}

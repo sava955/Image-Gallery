@@ -1,0 +1,31 @@
+.list-group-item {
+    margin-top: 20px;
+    border: none;
+
+    .card {
+        padding: 0;
+        border: none;
+    
+        .card-body {
+    
+            img {
+                width: 100%;
+                height: auto;
+            }
+
+            .title {
+                padding: 20px;
+            }
+        }
+
+        .btn {
+            color: #fff;
+            border: none;
+        }
+    }
+}
+
+
+
+
+

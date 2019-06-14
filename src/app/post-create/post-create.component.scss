@@ -1,0 +1,47 @@
+.container {
+    width: 50%;
+    margin: auto;
+    margin-top: 5vh;
+    
+    form {
+        margin-top: 20px;
+        padding: 20px;
+
+        input[type=file] {
+            visibility: hidden;
+        }
+
+        .file-picker {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .image-preview {
+            height: 3rem;
+            margin: 1rem 0;
+        
+            .image-preview img {
+                height: auto;
+                width: 100%;
+              }
+        }
+
+        .btn {
+            color: #fff;
+            border: none;
+        }
+
+        .save-post {
+            width: 100%;
+            border-radius: 20px;
+        }
+    }
+}
+
+@media (max-width: #{768px}) {
+    .container {
+        width: 100%;
+    }
+}
+

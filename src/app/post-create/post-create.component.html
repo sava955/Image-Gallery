@@ -1,0 +1,17 @@
+<div class="container">
+  <h4 class="title">Create Post</h4>
+  <form [formGroup]="form" (submit)="savePost()" class="shadow">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" formControlName="title" class="form-control" placeholder="Image title">
+      <p *ngIf="form.get('title').invalid">You must provide a image title.</p>
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <br>
+      <button type="button" class="btn file-picker" (click)="filePicker.click()">Choose an Image</button>
+      <input type="file" #filePicker class="form-control" (change)="onImagePicked($event)">
+    </div>
+    <button type="submit" class="btn save-post">Save Post</button>
+  </form>
+</div>
