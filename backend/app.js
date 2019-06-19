@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const postRoutes = require('./routes/posts');
+const albumRoutes = require('./routes/albums');
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/posts', postRoutes);
+app.use('/api/albums', albumRoutes);
 
 module.exports = app;

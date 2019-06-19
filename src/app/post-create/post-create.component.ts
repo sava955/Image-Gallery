@@ -1,30 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../models/post';
+import { Album } from '../models/album';
 import { PostService } from '../shared/post.service';
 import { Subscription } from 'rxjs';
+import { AlbumService } from '../shared/album.service';
 
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.scss']
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
   post: Post;
+  albums: Album[] = [];
+  defaultAlbum: string = 'None';
   form: FormGroup;
-  imagePreview: string;
+  imagePreview: string; 
   private postId: string;
   private mode = "create-post";
   private albumsSub: Subscription;
 
-  constructor(private postService: PostService, private route: ActivatedRoute) { }
+  constructor(private postService: PostService, private albumService: AlbumService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.albumService.getAlbums();
+    this.albumsSub = this.albumService.albumUpdateListener()
+      .subscribe((albums: any) => {
+        this.albums = albums;
+      });
     this.form = new FormGroup({
+      album: new FormControl(null, {validators: [Validators.required]}),
       title: new FormControl(null, {validators: [Validators.required]}),
       image: new FormControl(null, {validators: [Validators.required]})
     });
+    this.route.params.subscribe((params) => {
+      this.albums = params['album'];
+    })
+    this.form.controls['album'].setValue(this.defaultAlbum, {onlySelf: true});
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
         this.mode = 'post-edit';
@@ -35,11 +49,12 @@ export class PostCreateComponent implements OnInit {
                 id: postData._id,
                 title: postData.title,
                 image: postData.image,
-                
+                album: postData.album
               };
               this.form.setValue({
                 title: this.post.title,
-                image: this.post.image
+                image: this.post.image,
+                album: this.post.album
               });
             });
       } else {
@@ -47,6 +62,10 @@ export class PostCreateComponent implements OnInit {
         this.postId = null;
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.albumsSub.unsubscribe();
   }
 
   onImagePicked(event: Event) {
@@ -66,7 +85,9 @@ export class PostCreateComponent implements OnInit {
     }
     if (this.mode === 'create-post') {
       console.warn(this.form.value);
+      debugger;
       this.postService.addPost(
+      this.form.value.album,
       this.form.value.title,
       this.form.value.image
       )}
@@ -74,7 +95,8 @@ export class PostCreateComponent implements OnInit {
       this.postService.updatePost(
         this.postId,
         this.form.value.title,
-        this.form.value.image
+        this.form.value.image,
+        this.form.value.album
       );
     } 
     this.form.reset();   

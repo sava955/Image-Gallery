@@ -1,0 +1,13 @@
+<div class="container">
+    <form [formGroup]="form" (submit)="createAlbum()">
+        <div class="form-group">
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter a nema for this album" required>
+          <p *ngIf="form.get('name').invalid">You must provide album name.</p>
+        </div>
+        <div class="form-group">
+          <textarea name="description" formControlName="description" class="form-control" cols="30" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn">Create Album</button>
+      </form>
+</div>
+

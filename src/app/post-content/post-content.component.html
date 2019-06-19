@@ -1,0 +1,30 @@
+<div class="card" >
+  <a (click)="selectPost(post)" data-toggle="modal" data-target="#myModal">
+    <div class="card-body">
+      <div class="img-box">
+        <img [src]="post.image" [alt]="post.title" class="img-thumbnail">
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" *ngIf="post">
+    <div class="container">
+      <div class="options">
+        <a [routerLink]="['/post-edit', post.id]" class="options edit" data-dismiss="modal"><i
+            class="fas fa-edit"></i></a>
+        <a (click)="deletePost(post.id)" class="options delete" data-dismiss="modal"><i class="fas fa-trash-alt"></i></a>
+      </div>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <span class="controls next" (click)="next()"><i class="fas fa-arrow-right"></i></span>
+      <span class="controls prev"><i class="fas fa-arrow-left"></i></span>
+      <div class="modal-dialog" [style.background-image]="'url('+post.image+')'">
+        <div class="title">
+          <span>{{post.title}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

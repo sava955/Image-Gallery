@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Post } from '../models/post';
+import { Album } from '../models/album';
 
 @Injectable({
   providedIn: 'root'
@@ -33,22 +34,22 @@ export class PostService {
   }
 
   public getPost(postId: string) {
-    return this.http.get<{_id: string, title: string, image: string}>(
+    return this.http.get<{_id: string, title: string, image: string, album: string}>(
       'http://localhost:3000/api/posts/' + postId)
   }
 
-  public addPost(title: string, image: File) {
+  public addPost(album: string, title: string, image: File) {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('image', image);
-    this.http.post<{message: string, post: Post}>(
-      'http://localhost:3000/api/posts', formData)
+    this.http.post<any[]>(
+      `http://localhost:3000/api/posts/${album}`, formData)
       .subscribe((responseData) => {
         this.router.navigate(['/posts']);
       });
   }
 
-  public updatePost(id: string, title: string, image: File | string) {
+  public updatePost(id: string, title: string, image: File | string, album: string) {
     let postData: Post | FormData;
     if (typeof image === 'object') {
       postData = new FormData();
@@ -59,7 +60,8 @@ export class PostService {
       postData = {
         id: id,
         title: title,
-        image: image
+        image: image,
+        album: album
       };
     }
     this.http.put('http://localhost:3000/api/posts/' + id, postData)
