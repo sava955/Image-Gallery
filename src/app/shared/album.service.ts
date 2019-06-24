@@ -51,17 +51,19 @@ export class AlbumService {
   }
 
   public updateAlbum(id: string, name: string, description: string) {
-    const albumData = new FormData();
-      albumData.append('id', id);
-      albumData.append('name', name);
-      albumData.append('image', description);
-      this.http.put('http://localhost:3000/api/albums/' + id, albumData)
+    const album: any = { id: id, name: name, description: description }
+      this.http.put('http://localhost:3000/api/albums/' + id, album)
       .subscribe(response => {
-        this.router.navigate(['/posts']);
+        const updatedPosts = [...this.albums];
+        const oldPostIndex = updatedPosts.findIndex(a => a.id === album.id);
+        updatedPosts[oldPostIndex] = album;
+        this.albums = updatedPosts;
+        this.albumsUpdated.next([...this.albums]);
+        this.router.navigate(['/albums']);
       });
   }
 
-  public deletePost(postId: string) {
-    return this.http.delete('http://localhost:3000/api/albums/' + postId)
+  public deleteAlbum(albumId: string) {
+    return this.http.delete('http://localhost:3000/api/albums/' + albumId)
   }
 }

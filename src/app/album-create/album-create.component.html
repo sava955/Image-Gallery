@@ -1,5 +1,5 @@
-<div class="container">
-    <form [formGroup]="form" (submit)="createAlbum()">
+<div class="container" [@flyInOut]="'in'">
+    <form [formGroup]="form" (submit)="createAlbum()" class="shadow">
         <div class="form-group">
           <input type="text" formControlName="name" class="form-control" placeholder="Enter a nema for this album" required>
           <p *ngIf="form.get('name').invalid">You must provide album name.</p>

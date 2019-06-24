@@ -8,7 +8,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  styleUrls: ['./posts.component.scss'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)' }),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
 export class PostsComponent implements OnInit, OnDestroy {
   post: any;
@@ -34,6 +46,22 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   selectPost(post: Post) {
     this.post = post;
+  }
+
+  next() {
+    let ix = 1 + this.posts.indexOf(this.post);
+    if (ix >= this.posts.length) {
+      ix = 0;
+    }
+    this.post = this.posts[ix];
+  }
+
+  prev() {
+    let ix = this.posts.indexOf(this.post) - 1;
+    if (ix < 0) {
+      ix = this.posts.length - 1;
+    }
+    this.post = this.posts[ix];
   }
 
   deletePost(postId) {

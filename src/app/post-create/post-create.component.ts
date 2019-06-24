@@ -6,11 +6,30 @@ import { Album } from '../models/album';
 import { PostService } from '../shared/post.service';
 import { Subscription } from 'rxjs';
 import { AlbumService } from '../shared/album.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
-  styleUrls: ['./post-create.component.scss']
+  styleUrls: ['./post-create.component.scss'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)' }),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
 export class PostCreateComponent implements OnInit, OnDestroy {
   post: Post;

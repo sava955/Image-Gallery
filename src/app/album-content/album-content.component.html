@@ -1,15 +1,40 @@
 <div class="container" *ngIf="album">
-  <h2>{{album.name}}</h2>
+  <div class="d-flex shadow">
+    <div class="p-2 mr-auto">
+      <h3 class="text-capitalize">{{album.name}}</h3>
+    </div>
+    <div class="p-2">
+      <a [routerLink]="['/album-edit', album._id]">Edit Album <i
+        class="fas fa-edit"></i></a>
+    </div>
+    <div class="p-2">
+      <button data-toggle="modal" data-target="#deleteModal">Delete Album <i class="fas fa-trash-alt"></i></button>
+    </div>
+  </div>
+
   <div class="row">
-    <div class="col-sm-3 shadow" (click)="selectPost(post)" *ngFor="let post of album.posts">
+    <div class="col-sm-3" *ngFor="let post of album.posts; let i = index" [@flyInOut]="'in'">
       <div class="card">
-        <a (click)="selectPost(post)" data-toggle="modal" data-target="#myModal">
+        <a (click)="selectPost(post); postDeleteIndex = i" data-toggle="modal" data-target="#myModal">
           <div class="card-body">
             <div class="img-box">
               <img [src]="post.image" [alt]="post.title" class="img-thumbnail">
             </div>
           </div>
         </a>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+
+  <div class="modal fade" id="deleteModal" *ngIf="album">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        Delete this album?
+      </div>
+      <div class="modal-body">
+        <button (click)="deleteAlbum(album.id)">Yes</button>
+        <button data-dismiss="modal">No</button>
       </div>
     </div>
   </div>
@@ -21,11 +46,11 @@
     <div class="options">
       <a [routerLink]="['/post-edit', post._id]" class="options edit" data-dismiss="modal"><i
           class="fas fa-edit"></i></a>
-      <a (click)="deletePost(post.id)" class="options delete" data-dismiss="modal"><i class="fas fa-trash-alt"></i></a>
+      <a (click)="deletePost(post._id)" class="options delete" data-dismiss="modal"><i class="fas fa-trash-alt"></i></a>
     </div>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <span class="controls next" (click)="next()"><i class="fas fa-arrow-right"></i></span>
-    <span class="controls prev"><i class="fas fa-arrow-left"></i></span>
+    <span class="controls prev" (click)="prev()"><i class="fas fa-arrow-left"></i></span>
     <div class="modal-dialog" [style.background-image]="'url('+post.image+')'">
       <div class="title">
         <span>{{post.title}}</span>

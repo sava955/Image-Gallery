@@ -1,6 +1,6 @@
 <div class="container" *ngIf="albums.length > 0">
   <div class="row">
-    <div class="col-sm-3" *ngFor="let album of albums">
+    <div class="col-sm-3" *ngFor="let album of albums" [@flyInOut]="'in'">
       <a routerLink="/{{album.id}}">
         <div class="card">
           <div class="card-body">

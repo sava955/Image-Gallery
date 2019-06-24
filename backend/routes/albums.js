@@ -21,15 +21,21 @@ router.post('', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    const album = new Album({
-        _id: req.body.id,
-        name: req.body.name,
-        description: req.body.description
+        /*Album.updateOne({ _id: req.params.id }, req.body).then(result => {
+            Album.findById({_id: req.params.id}).then((album) => {
+                res.send(album);
+            })
+            //res.status(200).json({ message: 'Album updated!' });
+        });*/
+        const album = new Album({
+            _id: req.body.id,
+            name: req.body.name,
+            description: req.body.description
+        });
+        Album.updateOne({_id: req.params.id}, album).then(result => {
+            res.status(200).json({message: 'Album updated!'});
+        });
     });
-    Album.updateOne({ _id: req.params._id }, album).populate('posts').then(result => {
-        res.status(200).json({ message: 'Album updated!' });
-    });
-});
 
 router.get('', (req, res, next) => {
     Album.find().populate('posts', 'image').then(documents => {
@@ -41,9 +47,8 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-    const albumId = req.params.id;
 
-    Album.findById(albumId).populate('posts').then(album => {
+    Album.findById(req.params.id).populate('posts').then(album => {
         if (album) {
             res.status(201).json(album);
         }
@@ -51,6 +56,13 @@ router.get('/:id', (req, res, next) => {
             res.status(404).json({ message: 'Album not found!' });
         }
     });
+});
+
+router.delete('/:id', (req, res, next) => {
+    Album.deleteOne({ _id: req.params.id })
+        .then(result => {
+            res.status(200).json({ message: 'Album deleted! ' })
+        });
 });
 
 module.exports = router;

@@ -1,38 +1,43 @@
-.col-sm-3 {
-    padding: 0;
+.row {
+    margin: 10px 0;
 
-    &:hover {
-        cursor: pointer;
-    }
-
-    .card {
+    .col-sm-3 {
         padding: 0;
-        border: none;
     
-        .card-body {
+        &:hover {
+            cursor: pointer;
+        }
+    
+        .card {
             padding: 0;
-    
-            .img-box {
-                position: relative;
-                width: 100%;
-                height: 180px;
-                overflow: hidden;
-    
-                img {
+            margin: 10px;
+            border: none;
+        
+            .card-body {
+                padding: 0;
+        
+                .img-box {
+                    position: relative;
                     width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    top: -9999px;
-                    bottom: -9999px;
-                    left: -9999px;
-                    right: -9999px;
-                    margin: auto;
+                    height: 200px;
+                    overflow: hidden;
+        
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        top: -9999px;
+                        bottom: -9999px;
+                        left: -9999px;
+                        right: -9999px;
+                        margin: auto;
+                    }
+        
                 }
-    
-            }
-    
-            .title {
-                padding: 20px;
+        
+                .title {
+                    padding: 20px;
+                }
             }
         }
     }
